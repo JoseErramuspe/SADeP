@@ -27,4 +27,18 @@ Esto logra que a medida que un **experimento** avanza y realiza una mayor cantid
 SADeP combina **automatización**, **evaluación objetiva** y **retroalimentación continua**, ofreciendo una herramienta potente para *prompt engineering* y experimentación controlada con modelos de lenguaje.
 Este sistema está orientado tanto a desarrolladores y *prompt engineers*, como a cualquier persona interesada en perfeccionar la interacción con IA mediante un enfoque estructurado y repetible.
 
-## 🔧 **3. Instalación**
+## 🔌 **3. Instalación**
+1. Descargar e instalar Python (Este punto puede variar dependiendo del sistema operativo).
+2. Instalar la biblioteca de OpenAI para Python ejecutando el comando ```pip install openai``` desde la terminal.
+3. Descargar el sistema desde el repositorio haciendo click en el botón "Code" => "Download ZIP".
+4. Extraer el ZIP descargado en el directorio de preferencia.
+5. Modificar el archivo config.json ubicado en el directorio principal (SADeP - Main\config.json) y agregar la API Key de OpenAI en "api_key:".
+
+## 🔨 **4. Uso**
+SADeP funciona estructurado en **experimentos**. Para crear y ejecutar un experimento debes:
+1. Abrir la terminal en el directorio del sistema.
+2. Ejecutar el script **"crear_estructura.py"** utilizando el comando ```python crear_estructura.py``` desde la terminal.
+3. El script procederá a solicitar el nombre del experimento (p.ej. "expermiento01).
+4. Navegar y acceder al directorio del experimento (p.ej. SADeP - Main\experimentos\experimento01) y modificar el archivo **config.json** para agregar **categoría** y **contexto** y modificar, opcionalmente, los parametros de **puntaje objetivo**, **ciclos máximos** y **turnos máximos**.
+5. Ejecutar el script **engine.py** utilizando el comando ```python engine.py``` desde la terminal.
+6. Escribir
