@@ -107,7 +107,7 @@ def main():
             "categoria": categoria,
             "prompt_anterior": prompt_anterior,
             "retroalimentacion": retroalimentacion,
-            "planificacion": planificaciones_previas[-1] if planificaciones_previas else None
+            "planificacion": planificaciones_previas[-1] if planificaciones_previas else None,
             "especificaciones": config_global.get("especificaciones", {}).get("maker", {})
         }
         guardar_json(maker_input, os.path.join(ciclo_dir, "maker_input.json"))
