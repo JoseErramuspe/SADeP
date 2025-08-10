@@ -1,0 +1,18 @@
+{
+    "especificaciones": {
+        "planifier": "",
+        "maker": "",
+        "executor": "",
+        "user": "",
+        "reviewer": "",
+        "todos": ""
+    },
+    "configuracion": {
+        "api_key": "",
+        "max_tokens_planifier": 3500,
+        "max_tokens_maker": 2500,
+        "max_tokens_executor": 1350,
+        "max_tokens_user": 500,
+        "max_tokens_reviewer": 2500
+    }
+}
