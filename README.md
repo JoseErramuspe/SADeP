@@ -1,7 +1,6 @@
 # 🚀 **SADeP** – *Sistema Automático para Desarrollo de Prompts*
 
-## 📑 **Tabla de Contenidos**
-
+📑 **Tabla de Contenidos**
 1. [Título y descripción]
 2. [Características principales]
 3. [Instalación]
