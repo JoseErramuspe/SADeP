@@ -130,7 +130,7 @@ def main():
                 user_input = {
                     "categoria": categoria,
                     "prompt": prompt_actual,
-                    "historial": historial
+                    "historial": historial,
                     "especificaciones": config_global.get("especificaciones", {}).get("user", {})
                 }
                 user_output = llamar_user(user_input)
@@ -147,7 +147,7 @@ def main():
                 executor_input = {
                     "prompt": prompt_actual,
                     "mensaje_user": mensaje_user,
-                    "historial": historial
+                    "historial": historial,
                     "especificaciones": config_global.get("especificaciones", {}).get("executor", {})
                 }
                 raw_executor_output = llamar_executor(executor_input)
@@ -172,7 +172,7 @@ def main():
             "prompt": prompt_actual,
             "categoria": categoria,
             "historial": historial,
-            "evaluacion_previa": mejor_evaluacion["evaluacion"] if mejor_evaluacion and "evaluacion" in mejor_evaluacion else {}
+            "evaluacion_previa": mejor_evaluacion["evaluacion"] if mejor_evaluacion and "evaluacion" in mejor_evaluacion else {},
             "especificaciones": config_global.get("especificaciones", {}).get("reviewer", {})
         }
         guardar_json(reviewer_input, os.path.join(ciclo_dir, "reviewer_input.json"))
