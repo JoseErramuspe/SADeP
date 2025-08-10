@@ -26,3 +26,5 @@ Esto logra que a medida que un **experimento** avanza y realiza una mayor cantid
 
 SADeP combina **automatización**, **evaluación objetiva** y **retroalimentación continua**, ofreciendo una herramienta potente para *prompt engineering* y experimentación controlada con modelos de lenguaje.
 Este sistema está orientado tanto a desarrolladores y *prompt engineers*, como a cualquier persona interesada en perfeccionar la interacción con IA mediante un enfoque estructurado y repetible.
+
+## 🔧 **3. Instalación**
