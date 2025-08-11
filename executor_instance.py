@@ -38,6 +38,17 @@ EXECUTOR_SYSTEM_PROMPT = (
     "Recuerda: Tu meta es simular la experiencia más real, útil y profesional posible para el usuario final, respetando el prompt al máximo y adaptándote solo dentro de sus límites."
 )
 
+def cargar_config():
+    """
+    Carga el archivo config.json global de la carpeta principal (Prompts).
+    Retorna el diccionario de configuración.
+    """
+    config_path = os.path.join("config.json")
+    if not os.path.exists(config_path):
+        raise FileNotFoundError("No se encontró el archivo config.json")
+    with open(config_path, "r", encoding="utf8") as f:
+        return json.load(f)
+    
 def llamar_executor(executor_input):
     """
     Genera la respuesta del sistema conversacional (Executor) según el prompt y la conversación.
