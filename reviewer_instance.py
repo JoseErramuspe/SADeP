@@ -40,6 +40,7 @@ REVIEWER_SYSTEM_PROMPT = (
     "{\n"
     "  \"prompt\": \"Prompt evaluado\",\n"
     "  \"categoria\": \"Categoría de la interacción\",\n"
+    "  \"contexto\": \"Contexto de la categoría\",\n"
     "  \"historial\": [\n"
     "    {\"rol\": \"user\", \"mensaje\": \"...\"},\n"
     "    {\"rol\": \"executor\", \"mensaje\": \"...\"}\n"
@@ -54,6 +55,17 @@ REVIEWER_SYSTEM_PROMPT = (
     "Si en algún ciclo no puedes evaluar correctamente por formato incorrecto, falta de datos o cualquier otro motivo, igual debes devolver el bloque en el formato JSON, con puntajes bajos y una explicación clara del problema en cada justificación y en el resumen."
 )
 
+def cargar_config():
+    """
+    Carga el archivo config.json global de la carpeta principal (Prompts).
+    Retorna el diccionario de configuración.
+    """
+    config_path = os.path.join("config.json")
+    if not os.path.exists(config_path):
+        raise FileNotFoundError("No se encontró el archivo config.json")
+    with open(config_path, "r", encoding="utf8") as f:
+        return json.load(f)
+    
 def llamar_reviewer(reviewer_input):
     """
     Evalúa la conversación completa y el prompt de manera autónoma,
