@@ -63,7 +63,16 @@ PLANIFIER_SYSTEM_PROMPT = (
     "Advertencia: tu única salida debe ser un JSON estructurado con los bloques 'Atributos', 'Tareas' y 'Características'. No incluyas ningún texto antes o después del objeto JSON."
 )
 
-
+def cargar_config():
+    """
+    Carga el archivo config.json global de la carpeta principal (Prompts).
+    Retorna el diccionario de configuración.
+    """
+    config_path = os.path.join("config.json")
+    if not os.path.exists(config_path):
+        raise FileNotFoundError("No se encontró el archivo config.json")
+    with open(config_path, "r", encoding="utf8") as f:
+        return json.load(f)
 
 def llamar_planifier(planifier_input):
     """
