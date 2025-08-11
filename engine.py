@@ -105,6 +105,7 @@ def main():
         # 1. MAKER
         maker_input = {
             "categoria": categoria,
+            "contexto": contexto,
             "prompt_anterior": prompt_anterior,
             "retroalimentacion": retroalimentacion,
             "planificacion": planificaciones_previas[-1] if planificaciones_previas else None,
@@ -171,6 +172,7 @@ def main():
         reviewer_input = {
             "prompt": prompt_actual,
             "categoria": categoria,
+            "contexto": contexto,
             "historial": historial,
             "evaluacion_previa": mejor_evaluacion["evaluacion"] if mejor_evaluacion and "evaluacion" in mejor_evaluacion else {},
             "especificaciones": config_global.get("especificaciones", {}).get("reviewer", {})
