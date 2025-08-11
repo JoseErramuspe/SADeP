@@ -38,6 +38,7 @@ MAKER_SYSTEM_PROMPT = (
     "Espera siempre la entrada del Engine en este formato:\n"
     "{\n"
     '  \"categoria\": \"Categoría del prompt\",\n'
+    '  \"contexto\": \"(aquí se indica el contexto de la categoría del prompt a planificar, por ejemplo: el prompt está pensado para ser utilizado por niños entre 6 y 12 años.)\",\n'
     '  \"prompt_anterior\": \"...\",\n'
     '  \"retroalimentacion\": {...},\n'
     '  \"planificacion\": {...},\n'
@@ -48,6 +49,17 @@ MAKER_SYSTEM_PROMPT = (
     "Tu objetivo es iterar hasta obtener la mejor versión posible del prompt para la categoría indicada."
 )
 
+def cargar_config():
+    """
+    Carga el archivo config.json global de la carpeta principal (Prompts).
+    Retorna el diccionario de configuración.
+    """
+    config_path = os.path.join("config.json")
+    if not os.path.exists(config_path):
+        raise FileNotFoundError("No se encontró el archivo config.json")
+    with open(config_path, "r", encoding="utf8") as f:
+        return json.load(f)
+    
 def llamar_maker(maker_input):
     """
     Genera o mejora un prompt para la categoría indicada de forma autónoma,
