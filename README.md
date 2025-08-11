@@ -2,12 +2,11 @@
 
 📑 **Tabla de Contenidos**
 1. [Título y descripción]
-2. [Características principales]
-3. [Instalación]
-4. [Uso]
-5. [Estructura del proyecto]
-6. [Ejemplo de flujo de trabajo]
-7. [Contribuciones]
+2. [Instalación]
+3. [Uso]
+4. [Estructura del proyecto]
+5. [Ejemplo de flujo de trabajo]
+6. [Contribuciones]
 
 ## 📜 **1. Título y Descripción**
 SADeP es una herramienta diseñada para automatizar el proceso de **planificación, redacción, ejecución y evaluación** de *prompts* de forma iterativa en llamados **experimentos**.
@@ -27,14 +26,14 @@ Esto logra que a medida que un **experimento** avanza y realiza una mayor cantid
 SADeP combina **automatización**, **evaluación objetiva** y **retroalimentación continua**, ofreciendo una herramienta potente para *prompt engineering* y experimentación controlada con modelos de lenguaje.
 Este sistema está orientado tanto a desarrolladores y *prompt engineers*, como a cualquier persona interesada en perfeccionar la interacción con IA mediante un enfoque estructurado y repetible.
 
-## 🔌 **3. Instalación**
+## 🔌 **2. Instalación**
 1. Descargar e instalar Python (Este punto puede variar dependiendo del sistema operativo).
 2. Instalar la biblioteca de OpenAI para Python ejecutando el comando ```pip install openai``` desde la terminal.
 3. Descargar el sistema desde el repositorio haciendo click en el botón "Code" => "Download ZIP".
 4. Extraer el ZIP descargado en el directorio de preferencia.
 5. Modificar el archivo config.json ubicado en el directorio principal (SADeP - Main\config.json) y agregar la API Key de OpenAI en "api_key:".
 
-## 🔨 **4. Uso**
+## 🔨 **3. Uso**
 SADeP funciona estructurado en **experimentos**. Para crear y ejecutar un experimento debes:
 1. Abrir la terminal en el directorio del sistema.
 2. Ejecutar el script **"crear_estructura.py"** utilizando el comando ```python crear_estructura.py``` desde la terminal.
@@ -45,7 +44,7 @@ SADeP funciona estructurado en **experimentos**. Para crear y ejecutar un experi
 7. Comenzará el desarrollo del **prompt**, todo el feedback y procesos de la IA se pueden ver desde la terminal con la cual se ejecutó el mismo.
 8. Una vez finalizado el proceso, dentro de la carpeta del experimento se puede encontrar un archivo llamado **mejor_prompt.json**, en este JSON se encuentra el **prompt** el cual puntuó mas alto durante todo el proceso de desarrollo junto a la evaluación y justificación de sus características.
 
-## 📁 **5. Estructura del Proyecto**
+## 📁 **4. Estructura del Proyecto**
 La organización de archivos y carpetas en SADeP fue pensada parafacilitar su comprensión, mantenimiento y escalabilidad.
 Cada componente cumple un rol específico dentro del flujo del sistema.
 
@@ -81,7 +80,7 @@ Cada experimento tendrá su propio subdirectorio con:
 
 Todos los módulos de instancias (*_instance.py) dependen de la configuración central y se ejecutan secuencialmente en el ciclo definido por engine.py.
 
-## 🔁 **6. Flujo de desarrollo**
+## 🔁 **5. Flujo de desarrollo**
 A continuación se describe el flujo de desarrollo de un experimento en SADeP. El objetivo es que quien lea pueda comprender paso a paso qué hace el sistema, qué resultados tiene y cómo se toman las decisiones en cada iteración del ciclo.
 
 SADeP funciona como una línea de ensamblaje iterativa para prompts: cada ciclo consta de varias etapas que producen, prueban y evalúan prompts. El ciclo completo se repite hasta cumplir una condición de parada (número máximo de ciclos, puntaje objetivo, intervención humana, etc.). Los roles principales son: Planifier → Maker → User ↔ Executor → Reviewer. engine.py orquesta este flujo y persiste los resultados.
@@ -210,7 +209,7 @@ Estructura de salida:
 }"
 ```
 
-## 🤝 **7. Contribuciones**
+## 🤝 **6. Contribuciones**
 Este proyecto fue desarrollado gracias al trabajo y los esfuerzos colaborativo de:
 
 Santiago Boné — Diseño y desarrollo de la arquitectura del sistema, testeo y evaluación del sistema y los resultados, refinamiento de módulos y correción de errores encontrados.
