@@ -211,7 +211,7 @@ Estructura de salida:
 ```
 
 ## 🤝 **7. Contribuciones**
-Este proyecto fue desarrollado gracias al trabajo colaborativo de:
+Este proyecto fue desarrollado gracias al trabajo y los esfuerzos colaborativo de:
 
 Santiago Boné — Diseño y desarrollo de la arquitectura del sistema, testeo y evaluación del sistema y los resultados, refinamiento de módulos y correción de errores encontrados.
 
