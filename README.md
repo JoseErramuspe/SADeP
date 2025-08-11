@@ -84,10 +84,9 @@ Todos los módulos de instancias (*_instance.py) dependen de la configuración c
 ## 🔁 **6. Flujo de desarrollo**
 A continuación se describe el flujo de desarrollo de un experimento en SADeP. El objetivo es que quien lea pueda comprender paso a paso qué hace el sistema, qué resultados tiene y cómo se toman las decisiones en cada iteración del ciclo.
 
-### Visión general
 SADeP funciona como una línea de ensamblaje iterativa para prompts: cada ciclo consta de varias etapas que producen, prueban y evalúan prompts. El ciclo completo se repite hasta cumplir una condición de parada (número máximo de ciclos, puntaje objetivo, intervención humana, etc.). Los roles principales son: Planifier → Maker → User ↔ Executor → Reviewer. engine.py orquesta este flujo y persiste los resultados.
 
-#### 1. Inicialización del experimento
+#### 🛠 1. Inicialización del experimento
 crear_estructura.py crea la carpeta del experimento en ```experimentos/[nombre]``` con subcarpetas estándar:
 
 * ```ciclos/```: directorio donde se aloja la información de cada cilco
@@ -97,7 +96,7 @@ crear_estructura.py crea la carpeta del experimento en ```experimentos/[nombre]`
 
 Se cargan parámetros desde config.json global y el config del experimento (p. ej. max_ciclos, especificaciones por instancia o globales, max_tokens, etc.).
 
-#### 2. Planifier (planifica el prompt)
+#### 🤖 2. Planifier (planifica el prompt)
 Entrada: Categoría y contexto del prompt, información alojada en ```config.json``` del experimento y especificaciones de la instancia.
 
 Salida: Plan estructurado (JSON) con instrucciones para el Maker.
@@ -141,7 +140,7 @@ Ejemplo de salida:
   ]
 ```
 
-#### 3. Maker (redacta el prompt)
+#### 🤖 3. Maker (redacta el prompt)
 Entrada: Categoría y contexto del prompt, plan generado por Planifier y especificaciones de la instancia.
 
 Salida: El prompt redactado.
@@ -153,7 +152,7 @@ Ejemplo de salida:
   "justificacion": "Explicación breve del prompt o los cambios hechos."
 }
 ```
-#### 4. Executor (ejecuta el prompt, simula la IA)
+#### 🤖 4. Executor (ejecuta el prompt, simula la IA)
 Entrada: Prompt hecho por Maker, último mensaje de User, historial y especificaciones de la instancia.
 
 Salida: Mensaje de ejecución del prompt y contestaciones a User.
@@ -169,7 +168,7 @@ Ejemplo de salida:
 }
 ```
 
-#### 5. User (simula al usuario final)
+#### 🤖 5. User (simula al usuario final)
 Entrada: Prompt hecho por Maker, categoría del prompt, historial y especificaciones de la instancia.
 
 Salida: Conversacion simulada que representen el uso real de un usuario final.
@@ -193,7 +192,7 @@ Ejemplo de salida:
 
 Nota: en SADeP, User y Executor actúan como interlocutores: Ambos mantienen una conversación real y todas las interacciones quedan registradas.
 
-#### 6. Reviewer (evalúa resultados)
+#### 🤖 6. Reviewer (evalúa resultados)
 Entrada: Prompt actual, categoría y contexto del prompt, historial de conversación User ↔ Executor, evaluaciones previas y especificaciones de la instancia.
 
 Salida: Evaluación del prompt, incluyendo criterios, puntaje, justificación y mejora posible en cada uno.
