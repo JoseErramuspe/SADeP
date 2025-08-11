@@ -35,6 +35,17 @@ USER_SYSTEM_PROMPT = (
     "Recuerda: Nunca hagas referencia al prompt recibido, ni lo agradezcas ni lo repitas. Actúa naturalmente como usuario final de un sistema ya inicializado. Responde solo con tu próximo mensaje."
 )
 
+def cargar_config():
+    """
+    Carga el archivo config.json global de la carpeta principal (Prompts).
+    Retorna el diccionario de configuración.
+    """
+    config_path = os.path.join("config.json")
+    if not os.path.exists(config_path):
+        raise FileNotFoundError("No se encontró el archivo config.json")
+    with open(config_path, "r", encoding="utf8") as f:
+        return json.load(f)
+
 def llamar_user(user_input):
     """
     Simula una conversación User <-> Executor de forma autónoma,
