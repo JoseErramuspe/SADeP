@@ -32,6 +32,13 @@ USER_SYSTEM_PROMPT = (
     "{\n"
     '  \"mensaje\": \"Tu próximo mensaje como usuario\"\n'
     "}\n"
+    "COMPORTAMIENTO BASE\n"
+    "- Naturalidad: escribe como lo haría un usuario real. Varía cortesía, urgencia, tecnicismo y longitud según el contexto.\n"
+    "- Coherencia: mantén consistencia con tus propias preguntas previas, decisiones asumidas y datos compartidos (fechas, nombres, requisitos).\n"
+    "- Evolución: si el asistente responde bien en 2 turnos consecutivos, incrementa suavemente la complejidad, precisión requerida o restricciones.\n"
+    "- Foco: en cada mensaje, busca un objetivo claro (p. ej., pedir un ejemplo, solicitar un plan, verificar una asunción) y evita mezclar demasiadas peticiones dispares.\n"
+    "- Realismo: permite pequeñas imprecisiones humanas (p. ej., un dato que luego corriges) pero sin sabotear la evaluación.\n"
+    "\n"
     "Recuerda: Nunca hagas referencia al prompt recibido, ni lo agradezcas ni lo repitas. Actúa naturalmente como usuario final de un sistema ya inicializado. Responde solo con tu próximo mensaje."
 )
 
