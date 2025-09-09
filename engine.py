@@ -1,11 +1,14 @@
 import os
 import json
+import random
 from pathlib import Path
 from maker_instance import llamar_maker
 from user_instance import llamar_user
 from executor_instance import llamar_executor
 from reviewer_instance import llamar_reviewer
-from planifier_instance import llamar_planifier
+from planifier_instance import llamar_planifier_1
+from planifier_instance import llamar_planifier_2
+from planifier_instance import llamar_planifier_3
 from utils import extract_reviewer_output, extract_executor_output
 
 EXPERIMENTOS_DIR = os.path.join(os.path.dirname(__file__), "experimentos")
@@ -41,6 +44,16 @@ def promedio_eval(evaluacion):
         return sum(puntajes) / len(puntajes)
     else:
         return 0
+def seleccionar_imagen_aleatoria():
+    """
+    Selecciona una imagen al azar del archivo imagenes.json.
+    Retorna la URL de la imagen seleccionada.
+    """
+    imagenes = cargar_json(os.path.join(os.path.dirname(__file__), "imagenes.json"))
+    if not imagenes:
+        return None
+    clave = random.choice(list(imagenes.keys()))
+    return imagenes[clave]
 
 def main():
     # --- Parámetros base ---
@@ -75,26 +88,59 @@ def main():
     # --- PLANIFICACIÓN PREVIA (3 ciclos de planificación antes de iniciar los ciclos de maker) ---
     planificacion_dir = os.path.join(base, "planificacion")
     planificaciones_previas = []
-    for plan_ciclo in range(1, 4):
-        ciclo_plan_dir = os.path.join(planificacion_dir, f"ciclo_{plan_ciclo:03d}")
-        os.makedirs(ciclo_plan_dir, exist_ok=True)
-        planifier_input = {
-            "categoria": categoria,
-            "contexto": contexto,
-            "planificaciones_previas": planificaciones_previas,
-            "especificaciones": config_global.get("especificaciones", {}).get("planifier", {})
-        }
-        print(f"\n--- PLANIFICACIÓN CICLO {plan_ciclo:03d} ---")
-        print(f"Categoría: {categoria}")
-        print(f"Contexto: {contexto}")
-        planificacion = llamar_planifier(planifier_input)
-        planificacion_path = os.path.join(ciclo_plan_dir, "planificacion.json")
-        guardar_json(planificacion, planificacion_path)
-        for bloque in ["Atributos", "Tareas", "Características"]:
-            print(f"\n[{bloque.upper()}]")
-            for obj in planificacion.get(bloque, []):
-                print(f"- {obj.get('titulo', '')}: {obj.get('descripcion', '')}")
-        planificaciones_previas.append(planificacion)
+
+    # 1. Identificación de entidades
+    ciclo_plan_dir_1 = os.path.join(planificacion_dir, "ciclo_001")
+    os.makedirs(ciclo_plan_dir_1, exist_ok=True)
+    planifier_input_1 = {
+        "categoria": categoria,
+        "contexto": contexto,
+        "planificaciones_previas": [],
+        "especificaciones": config_global.get("especificaciones", {}).get("planifier", {})
+    }
+    print("\n--- PLANIFICACIÓN CICLO 001: Identificación de entidades ---")
+    planificacion_1 = llamar_planifier_1(planifier_input_1)
+    guardar_json(planificacion_1, os.path.join(ciclo_plan_dir_1, "planificacion_1.json"))
+    print("\n[ENTIDADES]")
+    for obj in planificacion_1.get("Entidades", []):
+        print(f"- {obj.get('titulo', '')}: {obj.get('justificacion', '')}")
+    planificaciones_previas.append(planificacion_1)
+
+    # 2. Perfilado de entidades
+    ciclo_plan_dir_2 = os.path.join(planificacion_dir, "ciclo_002")
+    os.makedirs(ciclo_plan_dir_2, exist_ok=True)
+    planifier_input_2 = {
+        "Entidades": planificacion_1.get("Entidades", []),
+        "contexto": contexto,
+        "especificaciones": config_global.get("especificaciones", {}).get("planifier", {})
+    }
+    print("\n--- PLANIFICACIÓN CICLO 002: Perfilado de entidades ---")
+    planificacion_2 = llamar_planifier_2(planifier_input_2)
+    guardar_json(planificacion_2, os.path.join(ciclo_plan_dir_2, "planificacion_2.json"))
+    print("\n[PERFIL DE ENTIDADES]")
+    for entidad in planificacion_2.get("Entidades", []):
+        print(f"\nEntidad: {entidad.get('titulo', '')}")
+        for bloque in ["intereses", "caracteristicas", "debilidades"]:
+            print(f"  [{bloque.capitalize()}]")
+            for obj in entidad.get(bloque, []):
+                print(f"    - {obj.get('titulo', '')}: {obj.get('justificacion', '')}")
+    planificaciones_previas.append(planificacion_2)
+
+    # 3. Definición de características del prompt
+    ciclo_plan_dir_3 = os.path.join(planificacion_dir, "ciclo_003")
+    os.makedirs(ciclo_plan_dir_3, exist_ok=True)
+    planifier_input_3 = {
+        "Entidades": planificacion_2.get("Entidades", []),
+        "contexto": contexto,
+        "especificaciones": config_global.get("especificaciones", {}).get("planifier", {})
+    }
+    print("\n--- PLANIFICACIÓN CICLO 003: Características del prompt ---")
+    planificacion_3 = llamar_planifier_3(planifier_input_3)
+    guardar_json(planificacion_3, os.path.join(ciclo_plan_dir_3, "planificacion_3.json"))
+    print("\n[CARACTERÍSTICAS DEL PROMPT]")
+    for obj in planificacion_3.get("CaracteristicasDelPrompt", []):
+        print(f"- {obj.get('titulo', '')}: {obj.get('justificacion', '')}")
+    planificaciones_previas.append(planificacion_3)
 
     # --- INICIO DE CICLOS DE MAKER, USER, EXECUTOR Y REVIEWER ---
     while ciclo <= max_ciclos:
@@ -145,14 +191,17 @@ def main():
                     despedida = True
                     break
             else:
+                imagen_url = seleccionar_imagen_aleatoria()
+                print(f"[IMAGEN ASIGNADA AL EXECUTOR]: {imagen_url}")
                 executor_input = {
                     "prompt": prompt_actual,
                     "mensaje_user": mensaje_user,
                     "historial": historial,
+                    "imagen_url": imagen_url,
                     "especificaciones": config_global.get("especificaciones", {}).get("executor", {})
                 }
                 raw_executor_output = llamar_executor(executor_input)
-                mensaje_executor = extract_executor_output(raw_executor_output)  # <--- EXTRACTOR ROBUSTO
+                mensaje_executor = extract_executor_output(raw_executor_output)
                 if not mensaje_executor:
                     print("Executor no generó mensaje. Fin de la conversación.")
                     break
@@ -175,11 +224,12 @@ def main():
             "contexto": contexto,
             "historial": historial,
             "evaluacion_previa": mejor_evaluacion["evaluacion"] if mejor_evaluacion and "evaluacion" in mejor_evaluacion else {},
+            "planificacion": planificaciones_previas,
             "especificaciones": config_global.get("especificaciones", {}).get("reviewer", {})
         }
         guardar_json(reviewer_input, os.path.join(ciclo_dir, "reviewer_input.json"))
         raw_reviewer_output = llamar_reviewer(reviewer_input)
-        guardar_json(raw_reviewer_output, os.path.join(ciclo_dir, "reviewer_output_raw.json"))  # Guarda crudo para depuración
+        guardar_json(raw_reviewer_output, os.path.join(ciclo_dir, "reviewer_output_raw.json"))
 
         # --- USAR EXTRACTOR ---
         reviewer_output = extract_reviewer_output(
@@ -220,9 +270,9 @@ def main():
             }, mejor_prompt_path)
 
         # 6. Condición de parada
-        if promedio >= puntaje_objetivo:
-            print(f"¡Condición de parada: puntaje objetivo alcanzado ({promedio})!")
-            break
+        #if promedio >= puntaje_objetivo:
+        #    print(f"¡Condición de parada: puntaje objetivo alcanzado ({promedio})!")
+        #    break
         if ciclo == max_ciclos:
             print("¡Condición de parada: máximo de ciclos alcanzado!")
             break
