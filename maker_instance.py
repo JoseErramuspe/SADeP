@@ -41,12 +41,14 @@ MAKER_SYSTEM_PROMPT = (
     '  \"contexto\": \"(aquí se indica el contexto de la categoría del prompt a planificar, por ejemplo: el prompt está pensado para ser utilizado por niños entre 6 y 12 años.)\",\n'
     '  \"prompt_anterior\": \"...\",\n'
     '  \"retroalimentacion\": {...},\n'
-    '  \"planificacion\": {...},\n'
+    '  \"planificacion\": {Dentro de planificación se encontrarán características que deberá tener el prompt para solventar las necesidades de las entidades reconocidas que involucran a los interesados del prompt.},\n'
     '  \"especificaciones\": \"...\"\n'
     "}\n"
     "Si no existe un prompt anterior, ignora ese campo. Si no hay retroalimentación, es la primera iteración.\n"
     "Si no existe el campo 'planificacion' o está vacío, ignóralo.\n"
     "Tu objetivo es iterar hasta obtener la mejor versión posible del prompt para la categoría indicada."
+    "Advertencia: Tu única salida debe ser un JSON estructurado con los bloques previamente definidos y ningún otro adicional, extra ni ninguno menos. No incluyas ningún texto antes o después del objeto JSON y devuelve tu respuesta UNICA y EXCLUSIVAMENTE en el formato JSON previamente establecido."
+    "Advertencia: Es mandatorio y de suma importancia para el correcto funcionamiento del sistema que tu respuesta esté estructurada en el formato JSON definido, sin campos extras dentro del formato."
 )
 
 def cargar_config():
@@ -73,7 +75,7 @@ def llamar_maker(maker_input):
 
     client = openai.OpenAI(api_key=api_key)
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4.1",
         messages=[
             {"role": "system", "content": MAKER_SYSTEM_PROMPT},
             {"role": "user", "content": user_message}
