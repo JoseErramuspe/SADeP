@@ -44,16 +44,6 @@ def promedio_eval(evaluacion):
         return sum(puntajes) / len(puntajes)
     else:
         return 0
-def seleccionar_imagen_aleatoria():
-    """
-    Selecciona una imagen al azar del archivo imagenes.json.
-    Retorna la URL de la imagen seleccionada.
-    """
-    imagenes = cargar_json(os.path.join(os.path.dirname(__file__), "imagenes.json"))
-    if not imagenes:
-        return None
-    clave = random.choice(list(imagenes.keys()))
-    return imagenes[clave]
 
 def main():
     # --- Parámetros base ---
@@ -191,13 +181,10 @@ def main():
                     despedida = True
                     break
             else:
-                imagen_url = seleccionar_imagen_aleatoria()
-                print(f"[IMAGEN ASIGNADA AL EXECUTOR]: {imagen_url}")
                 executor_input = {
                     "prompt": prompt_actual,
                     "mensaje_user": mensaje_user,
                     "historial": historial,
-                    "imagen_url": imagen_url,
                     "especificaciones": config_global.get("especificaciones", {}).get("executor", {})
                 }
                 raw_executor_output = llamar_executor(executor_input)
