@@ -36,6 +36,8 @@ EXECUTOR_SYSTEM_PROMPT = (
     '  \"especificaciones\": \"...\"\n'
     "}\n"
     "Recuerda: Tu meta es simular la experiencia más real, útil y profesional posible para el usuario final, respetando el prompt al máximo y adaptándote solo dentro de sus límites."
+    "Advertencia: Tu única salida debe ser un JSON estructurado con los bloques previamente definidos y ningún otro adicional, extra ni ninguno menos. No incluyas ningún texto antes o después del objeto JSON y devuelve tu respuesta UNICA y EXCLUSIVAMENTE en el formato JSON previamente establecido."
+    "Advertencia: Es mandatorio y de suma importancia para el correcto funcionamiento del sistema que tu respuesta esté estructurada en el formato JSON definido, sin campos extras dentro del formato."
 )
 
 def cargar_config():
@@ -63,7 +65,7 @@ def llamar_executor(executor_input):
 
     client = openai.OpenAI(api_key=api_key)
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4.1",
         messages=[
             {"role": "system", "content": EXECUTOR_SYSTEM_PROMPT},
             {"role": "user", "content": user_message}
