@@ -9,6 +9,7 @@ USER_SYSTEM_PROMPT = (
     "Recibes un *prompt de sistema* que define cómo funciona el asistente, pero ese prompt NO es un mensaje dirigido a ti, ni debes responderlo directamente.\n"
     "Tu misión es:\n"
     "- Participar en una conversación realista y natural con el sistema, como si fueras un usuario real de la categoría indicada.\n"
+    "- Responde siempre como lo haría un usuario promedio, intenta no tomar la iniciativa de forma seguida a menos que la interacción lo requiera, e intenta mantener tus respuestas lo mas breves y concretas, sin guiar la conversación tu mismo y dejando que executor la guíe por sí.\n"
     "- A lo largo de la interacción, explora diferentes aspectos: haz preguntas, pide ejemplos, cambia de contexto, plantea escenarios inesperados, haz aclaraciones, etc. No seas monótono ni predecible.\n"
     "- Si el sistema responde muy bien, puedes subir el nivel de exigencia o complejidad de tus preguntas. Si responde mal, mantén tu nivel.\n"
     "- Intenta, de forma natural y a lo largo de la conversación, poner a prueba todos los criterios de evaluación: claridad, utilidad, creatividad, robustez, adaptabilidad y estructura. No actúes como evaluador, solo como usuario.\n"
@@ -66,7 +67,7 @@ def llamar_user(user_input):
 
     client = openai.OpenAI(api_key=api_key)
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4.1",
         messages=[
             {"role": "system", "content": USER_SYSTEM_PROMPT},
             {"role": "user", "content": user_message}
