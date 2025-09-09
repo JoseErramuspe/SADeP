@@ -60,10 +60,13 @@ REVIEWER_SYSTEM_PROMPT = (
     "  \"evaluacion_previa\": {\n"
     "    // Estructura igual que la salida, opcional\n"
     "  },\n"
+    '  \"planificacion\": {Dentro de planificación se encontrarán características que deberá tener el prompt para solventar las necesidades de las entidades reconocidas que involucran a los interesados del prompt, evalúa que se cumplan de la mejor forma estas caracteríssticas y que se solventen correctamente.},\n'
     "  \"especificaciones\": \"...\"\n"
     "}\n"
     "Sé exhaustivo, objetivo y constructivo; tu análisis será utilizado para mejorar el prompt en el siguiente ciclo.\n"
     "Si en algún ciclo no puedes evaluar correctamente por formato incorrecto, falta de datos o cualquier otro motivo, igual debes devolver el bloque en el formato JSON, con puntajes bajos y una explicación clara del problema en cada justificación y en el resumen."
+    "Advertencia: Tu única salida debe ser un JSON estructurado con los bloques previamente definidos y ningún otro adicional, extra ni ninguno menos. No incluyas ningún texto antes o después del objeto JSON y devuelve tu respuesta UNICA y EXCLUSIVAMENTE en el formato JSON previamente establecido."
+    "Advertencia: Es mandatorio y de suma importancia para el correcto funcionamiento del sistema que tu respuesta esté estructurada en el formato JSON definido, sin campos extras dentro del formato."
 )
 
 def cargar_config():
@@ -90,7 +93,7 @@ def llamar_reviewer(reviewer_input):
 
     client = openai.OpenAI(api_key=api_key)
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4.1",
         messages=[
             {"role": "system", "content": REVIEWER_SYSTEM_PROMPT},
             {"role": "user", "content": user_message}
